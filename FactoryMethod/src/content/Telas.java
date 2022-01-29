@@ -177,7 +177,7 @@ public class Telas {
 		panel.add(panel_2, "name_172632954438400");
 		panel_2.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("Aqui come\u00E7a o Sistema !");
+		JLabel lblNewLabel_3 = new JLabel("Aqui come\u00E7a o Sistema !!!");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_3.setBounds(102, 120, 249, 22);
 		panel_2.add(lblNewLabel_3);
