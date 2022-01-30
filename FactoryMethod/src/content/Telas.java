@@ -23,6 +23,11 @@ import java.awt.event.ActionEvent;
 import java.awt.Button;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.UIManager;
+import java.awt.Cursor;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class Telas {
 
@@ -31,7 +36,10 @@ public class Telas {
 	private JPasswordField passwordField;
 	private JButton btnEntrar;
 	private JPanel panel_2;
-	private JPanel panel_3;
+	private JPanel panel_4;
+	private JPanel panel_5;
+	private JPanel panel_6;
+	private JPanel panel_7;
 	
 
 	/**
@@ -174,12 +182,13 @@ public class Telas {
 		panel_1.add(lblNewLabel_6);
 		
 		panel_2 = new JPanel();
+		panel_2.setBackground(Color.WHITE);
 		panel.add(panel_2, "name_172632954438400");
 		panel_2.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("Aqui come\u00E7a o Sistema !!!");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel_3.setBounds(102, 120, 249, 22);
+		JLabel lblNewLabel_3 = new JLabel("Condom\u00EDnios");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_3.setBounds(17, 45, 85, 22);
 		panel_2.add(lblNewLabel_3);
 		
 		JButton btnVoltaLogin = new JButton("Voltar ao Login");
@@ -191,8 +200,183 @@ public class Telas {
 				panel_2.setVisible(false);
 			}
 		});
-		btnVoltaLogin.setBounds(321, 221, 103, 29);
+		btnVoltaLogin.setBounds(302, 221, 122, 29);
 		panel_2.add(btnVoltaLogin);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_7.setVisible(true);
+				panel_2.setVisible(false);
+			}
+		});
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.setBorder(null);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setIcon(new ImageIcon(Telas.class.getResource("/images/image (3).jpg")));
+		btnNewButton.setBounds(321, 92, 109, 87);
+		panel_2.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_4.setVisible(true);
+				panel_2.setVisible(false);
+			}
+		});
+		btnNewButton_1.setBorder(null);
+		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.WHITE);
+		btnNewButton_1.setIcon(new ImageIcon(Telas.class.getResource("/images/condominio.png")));
+		btnNewButton_1.setBounds(17, 92, 90, 80);
+		panel_2.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_5.setVisible(true);
+				panel_2.setVisible(false);
+			}
+		});
+		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setBorder(null);
+		btnNewButton_2.setIcon(new ImageIcon(Telas.class.getResource("/images/edificio.png")));
+		btnNewButton_2.setBounds(127, 84, 95, 95);
+		panel_2.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("");
+		btnNewButton_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_6.setVisible(true);
+				panel_2.setVisible(false);
+			}
+		});
+		btnNewButton_3.setIcon(new ImageIcon(Telas.class.getResource("/images/apart.png")));
+		btnNewButton_3.setBorder(null);
+		btnNewButton_3.setBackground(Color.WHITE);
+		btnNewButton_3.setBounds(217, 78, 103, 109);
+		panel_2.add(btnNewButton_3);
+		
+		JLabel lblNewLabel_7 = new JLabel("Edif\u00EDcios");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_7.setBounds(152, 49, 54, 14);
+		panel_2.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Apartamentos");
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_8.setBounds(236, 49, 84, 14);
+		panel_2.add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel("Moradores");
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_9.setBounds(340, 49, 67, 14);
+		panel_2.add(lblNewLabel_9);
+		
+		JButton btnNewButton_4 = new JButton("Sair");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				System.exit(0);
+			}
+		});
+		btnNewButton_4.setBounds(17, 224, 89, 23);
+		panel_2.add(btnNewButton_4);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 434, 22);
+		panel_2.add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Arquivo");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Sair");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				System.exit(0);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		panel_4 = new JPanel();
+		panel.add(panel_4, "name_221349437703500");
+		panel_4.setLayout(null);
+		
+		JLabel lblNewLabel_10 = new JLabel("Condom\u00EDnios");
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_10.setBounds(170, 11, 111, 14);
+		panel_4.add(lblNewLabel_10);
+		
+		JButton btnNewButton_6 = new JButton("Voltar");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_2.setVisible(true);
+				panel_4.setVisible(false);
+			}
+		});
+		btnNewButton_6.setBounds(10, 227, 89, 23);
+		panel_4.add(btnNewButton_6);
+		
+		panel_5 = new JPanel();
+		panel.add(panel_5, "name_221754501111600");
+		panel_5.setLayout(null);
+		
+		JLabel lblNewLabel_11 = new JLabel("Edif\u00EDcios");
+		lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_11.setBounds(191, 11, 74, 14);
+		panel_5.add(lblNewLabel_11);
+		
+		JButton btnNewButton_5 = new JButton("Voltar");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_2.setVisible(true);
+				panel_5.setVisible(false);
+			}
+		});
+		btnNewButton_5.setBounds(10, 227, 89, 23);
+		panel_5.add(btnNewButton_5);
+		
+		panel_6 = new JPanel();
+		panel.add(panel_6, "name_222481303729500");
+		panel_6.setLayout(null);
+		
+		JLabel lblNewLabel_12 = new JLabel("Apartamentos");
+		lblNewLabel_12.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_12.setBounds(143, 11, 124, 20);
+		panel_6.add(lblNewLabel_12);
+		
+		JButton btnNewButton_7 = new JButton("Voltar");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_2.setVisible(true);
+				panel_6.setVisible(false);
+			}
+		});
+		btnNewButton_7.setBounds(10, 227, 89, 23);
+		panel_6.add(btnNewButton_7);
+		
+		panel_7 = new JPanel();
+		panel.add(panel_7, "name_222756029361300");
+		panel_7.setLayout(null);
+		
+		JLabel lblNewLabel_13 = new JLabel("Moradores");
+		lblNewLabel_13.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_13.setBounds(168, 11, 113, 14);
+		panel_7.add(lblNewLabel_13);
+		
+		JButton btnNewButton_8 = new JButton("Voltar");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_2.setVisible(true);
+				panel_7.setVisible(false);
+			}
+		});
+		btnNewButton_8.setBounds(10, 227, 89, 23);
+		panel_7.add(btnNewButton_8);
 	}
 	
 	private void limpar()
