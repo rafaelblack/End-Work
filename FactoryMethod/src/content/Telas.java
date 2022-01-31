@@ -131,6 +131,7 @@ public class Telas {
 		File arq_morador = new File ("NovaPasta/morador.txt");
 		
 		
+		
 		String usuariovalido[] = new String[2];
 		try {
 			arquivo.createNewFile();
