@@ -16,9 +16,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Button;
 import javax.swing.ImageIcon;
@@ -30,9 +33,13 @@ import java.awt.Cursor;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+
 
 public class Telas {
 
@@ -64,9 +71,7 @@ public class Telas {
 	private JPanel apartamento_luxo_cadastro;
 	private JPanel apartamento_padrao_cadastro;
 	private JTable table;
-	private JTable table_1;
 	private JTable table_2;
-	private JTable table_3;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
@@ -86,6 +91,12 @@ public class Telas {
 	private JTextField textField_17;
 	private JTextField textField_18;
 	private JTextField textField_19;
+	private JLabel lblErroLogin;
+	private ArrayList<Edificio> ed = new ArrayList<Edificio>();
+	private ArrayList<Morador> mo = new ArrayList<Morador>();
+	private JLabel lblNewLabel_44;
+	private JLabel lblNewLabel_45;
+	private JTable table_1;
 	/**
 	 * Launch the application.
 	 */
@@ -156,12 +167,12 @@ public class Telas {
 		
 		JLabel lblNewLabel = new JLabel("Login");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(184, 72, 52, 28);
+		lblNewLabel.setBounds(192, 72, 52, 28);
 		pagina_login.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Usu\u00E1rio");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(44, 122, 59, 14);
+		lblNewLabel_1.setBounds(44, 128, 59, 14);
 		pagina_login.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Senha");
@@ -170,7 +181,7 @@ public class Telas {
 		pagina_login.add(lblNewLabel_2);
 		
 		textField = new JTextField();
-		textField.setBounds(127, 121, 192, 20);
+		textField.setBounds(127, 127, 192, 20);
 		pagina_login.add(textField);
 		textField.setColumns(10);
 		
@@ -200,7 +211,7 @@ public class Telas {
 							menu.setVisible(true);
 							pagina_login.setVisible(false);
 						}else {
-							
+							lblErroLogin.setText("Usuário ou senha Incorretos !");
 						}
 					}
 					br.close();
@@ -224,13 +235,19 @@ public class Telas {
 		
 		JLabel lblNewLabel_5 = new JLabel("");
 		lblNewLabel_5.setIcon(new ImageIcon(Telas.class.getResource("/images/1499345621-contact_85338 (3).png")));
-		lblNewLabel_5.setBounds(337, 120, 31, 16);
+		lblNewLabel_5.setBounds(337, 126, 31, 16);
 		pagina_login.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setIcon(new ImageIcon(Telas.class.getResource("/images/1499345622-lock_85335 (2).png")));
 		lblNewLabel_6.setBounds(337, 171, 46, 20);
 		pagina_login.add(lblNewLabel_6);
+		
+		lblErroLogin = new JLabel("");
+		lblErroLogin.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblErroLogin.setForeground(Color.RED);
+		lblErroLogin.setBounds(151, 105, 151, 14);
+		pagina_login.add(lblErroLogin);
 		
 		menu = new JPanel();
 		menu.setBackground(Color.WHITE);
@@ -257,8 +274,9 @@ public class Telas {
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				morador.setVisible(true);
+				morador_cadastro.setVisible(true);
 				menu.setVisible(false);
+				
 			}
 		});
 		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -288,8 +306,36 @@ public class Telas {
 		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					//((DefaultTableModel) table_1.getModel()).setRowCount(50);
+					FileReader fr = new FileReader(arq_edificio);
+					BufferedReader br = new BufferedReader(fr);
+					//((DefaultTableModel) table_1.getModel()).setRowCount(50);
+					DefaultTableModel tabela = (DefaultTableModel)table_1.getModel();
+					
+					Object []linhas = br.lines().toArray();
+					
+					for (int i = 0; i < linhas.length; i++) {
+						
+						String [] dados = linhas [i].toString().split(" ");
+						
+						tabela.addRow(dados);
+						
+						
+					}
+					br.close();
+					
+					fr.close();
+					
+				}catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
 				edificio.setVisible(true);
 				menu.setVisible(false);
+				
+				((DefaultTableModel) table_1.getModel()).setRowCount(50);
+				
 			}
 		});
 		btnNewButton_2.setBackground(Color.WHITE);
@@ -417,22 +463,56 @@ public class Telas {
 		btnNewButton_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				edificio_cadastro.setVisible(true);
+				edificio.setVisible(false);
+				
 			}
 		});
-		btnNewButton_10.setBounds(26, 187, 110, 23);
+		btnNewButton_10.setBounds(314, 216, 110, 34);
 		edificio.add(btnNewButton_10);
 		
-		JButton btnNewButton_13 = new JButton("Alterar");
-		btnNewButton_13.setBounds(167, 187, 119, 23);
-		edificio.add(btnNewButton_13);
-		
-		JButton btnNewButton_14 = new JButton("Excluir");
-		btnNewButton_14.setBounds(304, 187, 120, 23);
+		JButton btnNewButton_14 = new JButton("Remover");
+		btnNewButton_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel dtm = (DefaultTableModel)table_1.getModel();
+		        if (table_1.getSelectedRow() >= 0){
+		            dtm.removeRow(table_1.getSelectedRow());
+		            table_1.setModel(dtm);
+		        }else{
+		            JOptionPane.showMessageDialog(null, "Favor selecionar uma linha");
+		        }
+			}
+		});
+		btnNewButton_14.setBounds(215, 216, 89, 34);
 		edificio.add(btnNewButton_14);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 33, 414, 172);
+		edificio.add(scrollPane);
+		
 		table_1 = new JTable();
-		table_1.setBounds(10, 176, 414, -138);
-		edificio.add(table_1);
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"N\u00BA Edif\u00EDcio", "Qtd.Apartamentos", "Qtd.Andares", "Cor"
+			}
+		));
+		scrollPane.setViewportView(table_1);
+		
+		JButton btnNewButton_31 = new JButton("Atualizar");
+		btnNewButton_31.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				revpaint();
+			}
+
+			private void revpaint() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		btnNewButton_31.setBounds(116, 227, 89, 23);
+		edificio.add(btnNewButton_31);
 		
 		apartamento = new JPanel();
 		panel.add(apartamento, "name_222481303729500");
@@ -493,20 +573,19 @@ public class Telas {
 		morador.add(btnNewButton_8);
 		
 		JButton btnNewButton_18 = new JButton("Cadastrar");
-		btnNewButton_18.setBounds(10, 193, 113, 23);
+		btnNewButton_18.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				morador_cadastro.setVisible(true);
+				morador.setVisible(false);
+			}
+			
+		});
+		btnNewButton_18.setBounds(311, 215, 113, 35);
 		morador.add(btnNewButton_18);
 		
-		JButton btnNewButton_19 = new JButton("Alterar");
-		btnNewButton_19.setBounds(168, 193, 113, 23);
-		morador.add(btnNewButton_19);
-		
-		JButton btnNewButton_20 = new JButton("Excluir");
-		btnNewButton_20.setBounds(311, 193, 113, 23);
+		JButton btnNewButton_20 = new JButton("Remover");
+		btnNewButton_20.setBounds(188, 215, 113, 35);
 		morador.add(btnNewButton_20);
-		
-		table_3 = new JTable();
-		table_3.setBounds(423, 36, -412, 147);
-		morador.add(table_3);
 		
 		condominio_cadastro = new JPanel();
 		panel.add(condominio_cadastro, "name_80354907104600");
@@ -624,12 +703,77 @@ public class Telas {
 		textField_8.setColumns(10);
 		
 		JButton btnNewButton_23 = new JButton("Voltar");
+		btnNewButton_23.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				edificio.setVisible(true);
+				edificio_cadastro.setVisible(false);
+			}
+		});
 		btnNewButton_23.setBounds(10, 227, 89, 23);
 		edificio_cadastro.add(btnNewButton_23);
 		
 		JButton btnNewButton_24 = new JButton("Salvar");
-		btnNewButton_24.setBounds(10, 182, 89, 23);
+		btnNewButton_24.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					
+					//arquivo.createNewFile();
+					FileWriter fw = new FileWriter(arq_edificio,true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					
+					String id1 = textField_5.getText().trim();
+					Integer id = Integer.parseInt(id1);
+					String qtd_apartamentos1 = textField_8.getText().trim();
+					Integer qtd_apartamentos = Integer.parseInt(qtd_apartamentos1);
+					String qtd_andares1 = textField_7.getText().trim();
+					Integer qtd_andares = Integer.parseInt(qtd_andares1);
+					String cor = textField_6.getText().trim();
+					
+					
+					Edificio edi = new Edificio(id, qtd_apartamentos, qtd_andares, cor);
+					
+					ed.add(edi);
+					
+					for (int i = 0; i < ed.size(); i++) {
+						
+						bw.write(ed.get(i).getId()+" ");
+						bw.write(ed.get(i).getQtd_apartamentos()+" ");
+						bw.write(ed.get(i).getQtd_andares()+" ");
+						bw.write(ed.get(i).getCor()+""+"\n");
+						
+					}
+					bw.close();
+					fw.close();
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				lblNewLabel_44.setText("Edifício cadastrado com sucesso !");
+				
+				
+			}
+			
+		});
+		btnNewButton_24.setBounds(335, 221, 89, 29);
 		edificio_cadastro.add(btnNewButton_24);
+		
+		lblNewLabel_44 = new JLabel("");
+		lblNewLabel_44.setForeground(new Color(0, 128, 0));
+		lblNewLabel_44.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_44.setBounds(98, 172, 226, 14);
+		edificio_cadastro.add(lblNewLabel_44);
+		
+		JButton btnNewButton_13 = new JButton("Limpar");
+		btnNewButton_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCadastraEdificio();
+			}
+		});
+		btnNewButton_13.setBounds(236, 221, 89, 29);
+		edificio_cadastro.add(btnNewButton_13);
 		
 		edificio_visualizar = new JPanel();
 		panel.add(edificio_visualizar, "name_80552709012900");
@@ -766,34 +910,100 @@ public class Telas {
 		
 		JLabel lblNewLabel_35 = new JLabel("Edif\u00EDcio:");
 		lblNewLabel_35.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_35.setBounds(10, 177, 52, 14);
+		lblNewLabel_35.setBounds(301, 143, 52, 14);
 		morador_cadastro.add(lblNewLabel_35);
 		
 		JLabel lblNewLabel_36 = new JLabel("Andar:");
 		lblNewLabel_36.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_36.setBounds(145, 177, 46, 14);
+		lblNewLabel_36.setBounds(304, 93, 46, 14);
 		morador_cadastro.add(lblNewLabel_36);
 		
 		JLabel lblNewLabel_37 = new JLabel("Apartamento:");
 		lblNewLabel_37.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_37.setBounds(278, 177, 86, 14);
+		lblNewLabel_37.setBounds(301, 51, 86, 14);
 		morador_cadastro.add(lblNewLabel_37);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(59, 174, 30, 22);
+		comboBox_1.setBounds(350, 140, 30, 22);
 		morador_cadastro.add(comboBox_1);
 		
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(191, 174, 30, 22);
+		comboBox_2.setBounds(350, 90, 30, 22);
 		morador_cadastro.add(comboBox_2);
 		
 		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(374, 174, 30, 22);
+		comboBox_3.setBounds(394, 48, 30, 22);
 		morador_cadastro.add(comboBox_3);
 		
 		JButton btnNewButton_27 = new JButton("Cadastrar");
-		btnNewButton_27.setBounds(10, 227, 89, 23);
+		btnNewButton_27.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+try {
+					
+					//arquivo.createNewFile();
+					FileWriter fw = new FileWriter(arq_morador,true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					
+					String nome = textField_12.getText().trim();
+					String cpf = textField_13.getText().trim();
+					String rg = textField_14.getText().trim();
+					String sexo = textField_15.getText().trim();
+					String idade1 = textField_16.getText().trim();
+					Integer idade = Integer.parseInt(idade1);
+					
+					Morador m = new Morador(nome, cpf, rg, sexo, idade);
+					
+					mo.add(m);
+					
+					for (int i = 0; i < mo.size(); i++) {
+						
+						bw.write(mo.get(i).getNome()+" ");
+						bw.write(mo.get(i).getCpf()+" ");
+						bw.write(mo.get(i).getRg()+" ");
+						bw.write(mo.get(i).getSexo()+" ");
+						bw.write(mo.get(i).getIdade()+""+"\n");
+						
+					}
+					bw.close();
+					fw.close();
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				lblNewLabel_45.setText("Morador cadastrado com sucesso !");
+			}
+		});
+		btnNewButton_27.setBounds(327, 227, 97, 23);
 		morador_cadastro.add(btnNewButton_27);
+		
+		JButton btnNewButton_19 = new JButton("Voltar");
+		btnNewButton_19.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				menu.setVisible(true);
+				morador_cadastro.setVisible(false);
+			}
+		});
+		btnNewButton_19.setBounds(10, 227, 89, 23);
+		morador_cadastro.add(btnNewButton_19);
+		
+		JButton btnNewButton_30 = new JButton("Limpar");
+		btnNewButton_30.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCadastraMorador();
+			}
+		});
+		btnNewButton_30.setBounds(228, 227, 89, 23);
+		morador_cadastro.add(btnNewButton_30);
+		
+		lblNewLabel_45 = new JLabel("");
+		lblNewLabel_45.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_45.setForeground(new Color(0, 128, 0));
+		lblNewLabel_45.setBounds(78, 190, 229, 14);
+		morador_cadastro.add(lblNewLabel_45);
 		
 		morador_visualizar = new JPanel();
 		panel.add(morador_visualizar, "name_81010366060700");
@@ -874,6 +1084,26 @@ public class Telas {
 	{
 	     textField.setText("");
 	     passwordField.setText("");
+	     lblErroLogin.setText("");
 	   
+	}
+	
+	private void limparCadastraEdificio()
+	{
+	     textField_5.setText("");
+	     textField_6.setText("");
+	     textField_7.setText("");
+	     textField_8.setText("");
+	     lblNewLabel_44.setText("");
+	}
+	
+	private void limparCadastraMorador()
+	{
+	     textField_12.setText("");
+	     textField_13.setText("");
+	     textField_14.setText("");
+	     textField_15.setText("");
+	     textField_16.setText("");
+	     lblNewLabel_45.setText("");
 	}
 }
