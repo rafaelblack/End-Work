@@ -16,8 +16,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Button;
@@ -33,6 +36,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Telas {
 
@@ -63,14 +69,13 @@ public class Telas {
 	private JPanel morador_excluir;
 	private JPanel apartamento_luxo_cadastro;
 	private JPanel apartamento_padrao_cadastro;
-	private JTable table;
 	private JTable table_1;
 	private JTable table_2;
 	private JTable table_3;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField nome_condominio;
+	private JTextField cidade_condominio;
+	private JTextField bairro_condominio;
+	private JTextField numero_condominio;
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
@@ -86,6 +91,7 @@ public class Telas {
 	private JTextField textField_17;
 	private JTextField textField_18;
 	private JTextField textField_19;
+	private JTable table;
 	/**
 	 * Launch the application.
 	 */
@@ -119,10 +125,10 @@ public class Telas {
 		
 		File arquivo = new File("NovaPasta/Agendamentos.txt");
 		File l = new File("NovaPasta/login.txt");
-		File arq_condominio = new File ("NovaPAsta/condominio.txt");
-		File arq_edificio = new File ("NovaPAsta/edificio.txt");
-		File arq_apartamento = new File ("NovaPAsta/apartamento.txt");
-		File arq_morador = new File ("NovaPAsta/morador.txt");
+		File arq_condominio = new File ("NovaPasta/condominio.txt");
+		File arq_edificio = new File ("NovaPasta/edificio.txt");
+		File arq_apartamento = new File ("NovaPasta/apartamento.txt");
+		File arq_morador = new File ("NovaPasta/morador.txt");
 		
 		
 		String usuariovalido[] = new String[2];
@@ -274,6 +280,38 @@ public class Telas {
 			public void actionPerformed(ActionEvent e) {
 				condominio.setVisible(true);
 				menu.setVisible(false);
+				
+				FileReader fr;
+				try {
+					fr = new FileReader("NovaPasta/condominio.txt");
+				
+					BufferedReader br = new BufferedReader(fr);
+					String firstLine = br.readLine().trim();
+					String[] columnsName = firstLine.split(" "); 
+					DefaultTableModel model = (DefaultTableModel)table.getModel();
+					model.setColumnIdentifiers(columnsName);
+					
+					Object [] tableLines = br.lines().toArray();
+					
+					for(int i = 0; i < tableLines.length; i++)
+					{
+						String line = tableLines[i].toString().trim();
+						String[] dataRow = line.split(" ");
+						model.addRow(dataRow);
+					}
+					
+					
+					
+					//table
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		btnNewButton_1.setBorder(null);
@@ -390,9 +428,20 @@ public class Telas {
 		btnNewButton_12.setBounds(305, 189, 119, 23);
 		condominio.add(btnNewButton_12);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 36, 414, 142);
+		condominio.add(scrollPane);
+		
 		table = new JTable();
-		table.setBounds(22, 179, 402, -145);
-		condominio.add(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nome", "Cidade", "Bairro", "N\u00B0 Condom\u00EDnio"
+			}
+		));
+		table.getColumnModel().getColumn(3).setPreferredWidth(81);
+		scrollPane.setViewportView(table);
 		
 		edificio = new JPanel();
 		panel.add(edificio, "name_221754501111600");
@@ -513,6 +562,12 @@ public class Telas {
 		condominio_cadastro.setLayout(null);
 		
 		JButton btnNewButton_21 = new JButton("Voltar");
+		btnNewButton_21.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				menu.setVisible(true);
+				condominio_cadastro.setVisible(false);	
+			}
+		});
 		btnNewButton_21.setBounds(10, 227, 89, 23);
 		condominio_cadastro.add(btnNewButton_21);
 		
@@ -521,10 +576,10 @@ public class Telas {
 		lblNewLabel_14.setBounds(123, 11, 208, 14);
 		condominio_cadastro.add(lblNewLabel_14);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(157, 56, 174, 20);
-		condominio_cadastro.add(textField_1);
-		textField_1.setColumns(10);
+		nome_condominio = new JTextField();
+		nome_condominio.setBounds(157, 56, 174, 20);
+		condominio_cadastro.add(nome_condominio);
+		nome_condominio.setColumns(10);
 		
 		JLabel lblNewLabel_15 = new JLabel("Nome do condom\u00EDnio:");
 		lblNewLabel_15.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -536,10 +591,10 @@ public class Telas {
 		lblNewLabel_16.setBounds(10, 85, 46, 14);
 		condominio_cadastro.add(lblNewLabel_16);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(61, 83, 270, 20);
-		condominio_cadastro.add(textField_2);
-		textField_2.setColumns(10);
+		cidade_condominio = new JTextField();
+		cidade_condominio.setBounds(61, 83, 270, 20);
+		condominio_cadastro.add(cidade_condominio);
+		cidade_condominio.setColumns(10);
 		
 		JLabel lblNewLabel_17 = new JLabel("Bairro:");
 		lblNewLabel_17.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -551,18 +606,49 @@ public class Telas {
 		lblNewLabel_18.setBounds(10, 139, 152, 14);
 		condominio_cadastro.add(lblNewLabel_18);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(61, 112, 270, 20);
-		condominio_cadastro.add(textField_3);
-		textField_3.setColumns(10);
+		bairro_condominio = new JTextField();
+		bairro_condominio.setBounds(61, 112, 270, 20);
+		condominio_cadastro.add(bairro_condominio);
+		bairro_condominio.setColumns(10);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(159, 137, 172, 20);
-		condominio_cadastro.add(textField_4);
-		textField_4.setColumns(10);
+		numero_condominio = new JTextField();
+		numero_condominio.setBounds(159, 137, 172, 20);
+		condominio_cadastro.add(numero_condominio);
+		numero_condominio.setColumns(10);
 		
 		JButton btnNewButton_22 = new JButton("Cadastrar");
-		btnNewButton_22.setBounds(10, 178, 89, 23);
+		btnNewButton_22.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//String nome = nome.getText().trim();
+				
+				FileWriter fw;
+				try {
+					fw = new FileWriter("NovaPasta/condominio.txt",true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String nome = nome_condominio.getText().trim();
+					String cidade = cidade_condominio.getText().trim();
+					String bairro = bairro_condominio.getText().trim();
+					String condominioN = numero_condominio.getText().trim();
+					Integer n_condominio = Integer.parseInt(condominioN);
+					
+					Condominio c = new Condominio(nome,cidade, bairro, n_condominio);
+					
+					String texto = nome+' '+cidade+' '+bairro+' '+condominioN;
+					bw.write(texto);
+					bw.close();
+					fw.close();
+			
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				menu.setVisible(true);
+				condominio_cadastro.setVisible(false);	
+			}
+		});
+		btnNewButton_22.setBounds(10, 178, 137, 23);
 		condominio_cadastro.add(btnNewButton_22);
 		
 		condominio_visualizar = new JPanel();
