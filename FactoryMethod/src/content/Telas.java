@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Button;
 import javax.swing.ImageIcon;
@@ -100,13 +101,15 @@ public class Telas {
 	private JTextField textField_17;
 	private JTextField textField_18;
 	private JTextField textField_19;
-	private JTable table;
+	//private JTable table;
 	private JLabel lblErroLogin;
 	private ArrayList<Edificio> ed = new ArrayList<Edificio>();
 	private ArrayList<Morador> mo = new ArrayList<Morador>();
 	private JLabel lblNewLabel_44;
 	private JLabel lblNewLabel_45;
 	private JTable table_1;
+	private JScrollPane scrollPaneEdificio;
+	private JTable table_morador;
 	/**
 	 * Launch the application.
 	 */
@@ -223,6 +226,7 @@ public class Telas {
 							pagina_login.setVisible(false);
 						}else {
 							lblErroLogin.setText("Usuário ou senha Incorretos !");
+							//JOptionPane.showMessageDialog(null, "Usuário ou senha Incorretos !");
 						}
 					}
 					br.close();
@@ -285,8 +289,36 @@ public class Telas {
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				morador_cadastro.setVisible(true);
+				try {
+					//((DefaultTableModel) table_1.getModel()).setRowCount(50);
+					FileReader fr = new FileReader(arq_morador);
+					BufferedReader br = new BufferedReader(fr);
+					//((DefaultTableModel) table_1.getModel()).setRowCount(50);
+					DefaultTableModel tabela = (DefaultTableModel)table_morador.getModel();
+					
+					Object []linhas = br.lines().toArray();
+					
+					for (int i = 0; i < linhas.length; i++) {
+						
+						String [] dados = linhas [i].toString().split(" ");
+						
+						tabela.addRow(dados);
+						
+						
+					}
+					br.close();
+					
+					fr.close();
+					
+				}catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				morador.setVisible(true);
 				menu.setVisible(false);
+				
+				((DefaultTableModel) table_morador.getModel()).setRowCount(50);
+				
 				
 			}
 		});
@@ -537,12 +569,13 @@ public class Telas {
 		        }
 			}
 		});
-		btnNewButton_14.setBounds(215, 216, 89, 34);
+		btnNewButton_14.setBounds(204, 216, 100, 34);
 		edificio.add(btnNewButton_14);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 33, 414, 172);
-		edificio.add(scrollPane);
+		JScrollPane scrollPane1;
+		scrollPaneEdificio = new JScrollPane();
+		scrollPaneEdificio.setBounds(10, 33, 414, 172);
+		edificio.add(scrollPaneEdificio);
 		
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
@@ -552,21 +585,7 @@ public class Telas {
 				"N\u00BA Edif\u00EDcio", "Qtd.Apartamentos", "Qtd.Andares", "Cor"
 			}
 		));
-		scrollPane.setViewportView(table_1);
-		
-		JButton btnNewButton_31 = new JButton("Atualizar");
-		btnNewButton_31.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				revpaint();
-			}
-
-			private void revpaint() {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		btnNewButton_31.setBounds(116, 227, 89, 23);
-		edificio.add(btnNewButton_31);
+		scrollPaneEdificio.setViewportView(table_1);
 		
 		apartamento = new JPanel();
 		panel.add(apartamento, "name_222481303729500");
@@ -638,8 +657,33 @@ public class Telas {
 		morador.add(btnNewButton_18);
 		
 		JButton btnNewButton_20 = new JButton("Remover");
+		btnNewButton_20.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel dtm = (DefaultTableModel)table_morador.getModel();
+		        if (table_morador.getSelectedRow() >= 0){
+		            dtm.removeRow(table_morador.getSelectedRow());
+		            table_morador.setModel(dtm);
+		        }else{
+		            JOptionPane.showMessageDialog(null, "Favor selecionar uma linha");
+		        }
+			}
+		});
 		btnNewButton_20.setBounds(188, 215, 113, 35);
 		morador.add(btnNewButton_20);
+		
+		JScrollPane scrollPane_morador = new JScrollPane();
+		scrollPane_morador.setBounds(10, 36, 414, 168);
+		morador.add(scrollPane_morador);
+		
+		table_morador = new JTable();
+		table_morador.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nome", "Rg", "Cpf", "Sexo", "Idade"
+			}
+		));
+		scrollPane_morador.setViewportView(table_morador);
 		
 		condominio_cadastro = new JPanel();
 		panel.add(condominio_cadastro, "name_80354907104600");
@@ -796,7 +840,7 @@ public class Telas {
 		JButton btnNewButton_23 = new JButton("Voltar");
 		btnNewButton_23.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				edificio.setVisible(true);
+				menu.setVisible(true);
 				edificio_cadastro.setVisible(false);
 			}
 		});
