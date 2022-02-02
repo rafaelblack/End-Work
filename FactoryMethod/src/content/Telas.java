@@ -44,6 +44,7 @@ import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class Telas {
 
@@ -77,7 +78,6 @@ public class Telas {
 
 	private JTable table_9;
 	private JTable table;
-	private JTable table_2;
 	private JTextField nome_condominio;
 	private JTextField cidade_condominio;
 	private JTextField bairro_condominio;
@@ -90,9 +90,6 @@ public class Telas {
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
 	private JTextField textField_12;
 	private JTextField textField_13;
 	private JTextField textField_14;
@@ -110,6 +107,13 @@ public class Telas {
 	private JTable table_1;
 	private JScrollPane scrollPaneEdificio;
 	private JTable table_morador;
+	private JTextField textField_20;
+	private JTextField textField_21;
+	private JTextField textField_22;
+	private JTextField textField_23;
+	private JTextField textField_24;
+	private JTextField textField_25;
+	private JTable table_2;
 	/**
 	 * Launch the application.
 	 */
@@ -425,6 +429,38 @@ public class Telas {
 			public void actionPerformed(ActionEvent e) {
 				apartamento.setVisible(true);
 				menu.setVisible(false);
+				
+				FileReader fr;
+				try {
+					fr = new FileReader("NovaPasta/apartamento.txt");
+				
+					BufferedReader br = new BufferedReader(fr);
+					String firstLine = br.readLine().trim();
+					String[] columnsName = firstLine.split(" "); 
+					DefaultTableModel model = (DefaultTableModel)table.getModel();
+					model.setColumnIdentifiers(columnsName);
+					
+					Object [] tableLines = br.lines().toArray();
+					
+					for(int i = 0; i < tableLines.length; i++)
+					{
+						String line = tableLines[i].toString().trim();
+						String[] dataRow = line.split(" ");
+						model.addRow(dataRow);
+					}
+					
+					
+					
+					//table
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		btnNewButton_3.setIcon(new ImageIcon(Telas.class.getResource("/images/apart.png")));
@@ -609,22 +645,19 @@ public class Telas {
 		JButton btnNewButton_15 = new JButton("Cadastrar");
 		btnNewButton_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				apartamento_cadastro.setVisible(true);
+				apartamento.setVisible(false);
 			}
 		});
 		btnNewButton_15.setBounds(10, 193, 116, 23);
 		apartamento.add(btnNewButton_15);
 		
-		JButton btnNewButton_16 = new JButton("Alterar");
-		btnNewButton_16.setBounds(158, 193, 109, 23);
-		apartamento.add(btnNewButton_16);
-		
-		JButton btnNewButton_17 = new JButton("Excluir");
-		btnNewButton_17.setBounds(308, 193, 116, 23);
-		apartamento.add(btnNewButton_17);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(413, 43, -391, 126);
+		apartamento.add(scrollPane_1);
 		
 		table_2 = new JTable();
-		table_2.setBounds(10, 182, 414, -139);
-		apartamento.add(table_2);
+		scrollPane_1.setViewportView(table_2);
 		
 		morador = new JPanel();
 		panel.add(morador, "name_222756029361300");
@@ -762,7 +795,7 @@ public class Telas {
 					
 					Condominio c = new Condominio(nome,cidade, bairro, n_condominio);
 					
-					String texto = nome+' '+cidade+' '+bairro+' '+condominioN;
+					String texto = nome+' '+cidade+' '+bairro+' '+condominioN+"\n";
 					bw.write(texto);
 					bw.close();
 					fw.close();
@@ -928,52 +961,31 @@ public class Telas {
 		lblNewLabel_24.setBounds(130, 11, 205, 14);
 		apartamento_cadastro.add(lblNewLabel_24);
 		
-		JLabel lblNewLabel_25 = new JLabel("N\u00FAmero do Apartamento:");
-		lblNewLabel_25.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_25.setBounds(10, 55, 162, 14);
-		apartamento_cadastro.add(lblNewLabel_25);
-		
-		textField_9 = new JTextField();
-		textField_9.setBounds(182, 53, 153, 20);
-		apartamento_cadastro.add(textField_9);
-		textField_9.setColumns(10);
-		
-		JLabel lblNewLabel_26 = new JLabel("Andar:");
-		lblNewLabel_26.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_26.setBounds(10, 80, 46, 14);
-		apartamento_cadastro.add(lblNewLabel_26);
-		
-		textField_10 = new JTextField();
-		textField_10.setBounds(66, 78, 269, 20);
-		apartamento_cadastro.add(textField_10);
-		textField_10.setColumns(10);
-		
-		JLabel lblNewLabel_27 = new JLabel("Tipo de Apartamento:");
-		lblNewLabel_27.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_27.setBounds(10, 131, 145, 14);
-		apartamento_cadastro.add(lblNewLabel_27);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(156, 128, 30, 22);
-		apartamento_cadastro.add(comboBox);
-		
-		JLabel lblNewLabel_28 = new JLabel("N\u00FAmero do Edif\u00EDcio:");
-		lblNewLabel_28.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_28.setBounds(10, 106, 125, 14);
-		apartamento_cadastro.add(lblNewLabel_28);
-		
-		textField_11 = new JTextField();
-		textField_11.setBounds(130, 104, 205, 20);
-		apartamento_cadastro.add(textField_11);
-		textField_11.setColumns(10);
-		
-		JButton btnNewButton_25 = new JButton("Avan\u00E7ar");
-		btnNewButton_25.setBounds(10, 175, 89, 23);
-		apartamento_cadastro.add(btnNewButton_25);
-		
 		JButton btnNewButton_26 = new JButton("Voltar");
 		btnNewButton_26.setBounds(10, 214, 89, 23);
 		apartamento_cadastro.add(btnNewButton_26);
+		
+		JButton btnNewButton_25 = new JButton("Apartamento de Luxo");
+		btnNewButton_25.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				apartamento_luxo_cadastro.setVisible(true);
+				apartamento_cadastro.setVisible(false);
+			}
+		});
+		btnNewButton_25.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_25.setBounds(31, 104, 174, 23);
+		apartamento_cadastro.add(btnNewButton_25);
+		
+		JButton btnNewButton_31 = new JButton("Apartamento Padr\u00E3o");
+		btnNewButton_31.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				apartamento_padrao_cadastro.setVisible(true);
+				apartamento_cadastro.setVisible(false);
+			}
+		});
+		btnNewButton_31.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_31.setBounds(215, 104, 174, 23);
+		apartamento_cadastro.add(btnNewButton_31);
 		
 		apartamento_visualizar = new JPanel();
 		panel.add(apartamento_visualizar, "name_80632981839000");
@@ -1160,26 +1172,104 @@ try {
 		
 		JLabel lblNewLabel_42 = new JLabel("Modelo de Luminaria:");
 		lblNewLabel_42.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_42.setBounds(10, 47, 131, 14);
+		lblNewLabel_42.setBounds(10, 116, 131, 14);
 		apartamento_luxo_cadastro.add(lblNewLabel_42);
 		
 		JLabel lblNewLabel_43 = new JLabel("Possui geladeira? :");
 		lblNewLabel_43.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_43.setBounds(10, 95, 120, 14);
+		lblNewLabel_43.setBounds(10, 171, 120, 14);
 		apartamento_luxo_cadastro.add(lblNewLabel_43);
 		
 		textField_19 = new JTextField();
-		textField_19.setBounds(151, 45, 157, 20);
+		textField_19.setBounds(151, 114, 157, 20);
 		apartamento_luxo_cadastro.add(textField_19);
 		textField_19.setColumns(10);
 		
 		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(140, 92, 30, 22);
+		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Sim", "N\u00E3o"}));
+		comboBox_4.setBounds(140, 168, 30, 22);
 		apartamento_luxo_cadastro.add(comboBox_4);
 		
 		JButton btnNewButton_29 = new JButton("Cadastrar");
-		btnNewButton_29.setBounds(10, 174, 89, 23);
+		btnNewButton_29.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//arquivo.createNewFile();
+				FileWriter fw;
+				try {
+					fw = new FileWriter("NovaPasta/apartamento.txt",true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String num_app_texto = textField_22.getText().trim(); 
+					String andar_texto = textField_21.getText().trim();
+					String tipo_app = textField_20.getText().trim();
+					String tipo_luminaria = textField_19.getText().trim();
+					String possui_geladeira_texto = (String)comboBox_4.getSelectedItem();
+					
+					int num_app = Integer.parseInt(num_app_texto);
+					int andar = Integer.parseInt(andar_texto);
+					
+					ApartamentoLuxo al = new ApartamentoLuxo(num_app, andar, tipo_app, tipo_luminaria, possui_geladeira_texto);
+					
+					String texto = "Luxo "+num_app_texto+' '+andar_texto+' '+tipo_app+' '+tipo_luminaria+' '+possui_geladeira_texto+"\n";
+					
+					bw.write(texto);
+					
+					bw.close();
+					fw.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				menu.setVisible(true);
+				apartamento_luxo_cadastro.setVisible(false);
+			}
+		});
+		btnNewButton_29.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_29.setBounds(10, 227, 120, 23);
 		apartamento_luxo_cadastro.add(btnNewButton_29);
+		
+		JLabel lblNewLabel_46 = new JLabel("N\u00FAmero do Apartamento:");
+		lblNewLabel_46.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_46.setBounds(10, 39, 162, 14);
+		apartamento_luxo_cadastro.add(lblNewLabel_46);
+		
+		JLabel lblNewLabel_47 = new JLabel("Andar:");
+		lblNewLabel_47.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_47.setBounds(10, 66, 46, 14);
+		apartamento_luxo_cadastro.add(lblNewLabel_47);
+		
+		JLabel lblNewLabel_48 = new JLabel("N\u00FAmero do Edif\u00EDcio:");
+		lblNewLabel_48.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_48.setBounds(10, 91, 120, 14);
+		apartamento_luxo_cadastro.add(lblNewLabel_48);
+		
+		textField_20 = new JTextField();
+		textField_20.setBounds(133, 89, 175, 20);
+		apartamento_luxo_cadastro.add(textField_20);
+		textField_20.setColumns(10);
+		
+		textField_21 = new JTextField();
+		textField_21.setBounds(55, 64, 253, 20);
+		apartamento_luxo_cadastro.add(textField_21);
+		textField_21.setColumns(10);
+		
+		textField_22 = new JTextField();
+		textField_22.setBounds(169, 37, 139, 20);
+		apartamento_luxo_cadastro.add(textField_22);
+		textField_22.setColumns(10);
+		
+		JButton btnNewButton_32 = new JButton("Voltar");
+		btnNewButton_32.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				menu.setVisible(true);
+				apartamento_luxo_cadastro.setVisible(false);
+			}
+		});
+		btnNewButton_32.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_32.setBounds(335, 228, 89, 23);
+		apartamento_luxo_cadastro.add(btnNewButton_32);
 		
 		apartamento_padrao_cadastro = new JPanel();
 		panel.add(apartamento_padrao_cadastro, "name_91100541842800");
@@ -1192,27 +1282,99 @@ try {
 		
 		JLabel lblNewLabel_39 = new JLabel("Tipo de arm\u00E1rio:");
 		lblNewLabel_39.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_39.setBounds(23, 43, 104, 14);
+		lblNewLabel_39.setBounds(23, 139, 104, 14);
 		apartamento_padrao_cadastro.add(lblNewLabel_39);
 		
 		JLabel lblNewLabel_40 = new JLabel("Tipo de piso:");
 		lblNewLabel_40.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_40.setBounds(23, 81, 86, 14);
+		lblNewLabel_40.setBounds(23, 182, 86, 14);
 		apartamento_padrao_cadastro.add(lblNewLabel_40);
 		
 		textField_17 = new JTextField();
-		textField_17.setBounds(124, 41, 228, 20);
+		textField_17.setBounds(124, 137, 228, 20);
 		apartamento_padrao_cadastro.add(textField_17);
 		textField_17.setColumns(10);
 		
 		textField_18 = new JTextField();
-		textField_18.setBounds(105, 78, 247, 20);
+		textField_18.setBounds(103, 180, 247, 20);
 		apartamento_padrao_cadastro.add(textField_18);
 		textField_18.setColumns(10);
 		
 		JButton btnNewButton_28 = new JButton("Cadastrar");
-		btnNewButton_28.setBounds(20, 144, 89, 23);
+		btnNewButton_28.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//arquivo.createNewFile();
+				FileWriter fw;
+				try {
+					fw = new FileWriter("NovaPasta/apartamento.txt",true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					String num_app_texto = textField_23.getText().trim(); 
+					String andar_texto = textField_24.getText().trim();
+					String num_edi = textField_25.getText().trim();
+					String tipo_armario = textField_17.getText().trim();
+					String tipo_piso = textField_18.getText().trim();
+					
+					int num_app = Integer.parseInt(num_app_texto);
+					int andar = Integer.parseInt(andar_texto);
+					
+					ApartamentoPadrao ap = new ApartamentoPadrao(num_app, andar, num_edi, tipo_armario, tipo_piso);
+					
+					String texto = "Padrão "+num_app_texto+' '+andar_texto+' '+num_edi+' '+tipo_armario+' '+tipo_piso+"\n";
+					
+					bw.write(texto);
+					
+					bw.close();
+					fw.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				menu.setVisible(true);
+				apartamento_luxo_cadastro.setVisible(false);
+				
+			}
+		});
+		btnNewButton_28.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_28.setBounds(23, 227, 145, 23);
 		apartamento_padrao_cadastro.add(btnNewButton_28);
+		
+		JLabel lblNewLabel_49 = new JLabel("N\u00FAmero do Apartamento:");
+		lblNewLabel_49.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_49.setBounds(23, 40, 163, 14);
+		apartamento_padrao_cadastro.add(lblNewLabel_49);
+		
+		JLabel lblNewLabel_50 = new JLabel("Andar:");
+		lblNewLabel_50.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_50.setBounds(23, 67, 46, 14);
+		apartamento_padrao_cadastro.add(lblNewLabel_50);
+		
+		JLabel lblNewLabel_51 = new JLabel("N\u00FAmero do Edif\u00EDcio:");
+		lblNewLabel_51.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_51.setBounds(23, 103, 118, 14);
+		apartamento_padrao_cadastro.add(lblNewLabel_51);
+		
+		textField_23 = new JTextField();
+		textField_23.setBounds(182, 38, 168, 20);
+		apartamento_padrao_cadastro.add(textField_23);
+		textField_23.setColumns(10);
+		
+		textField_24 = new JTextField();
+		textField_24.setBounds(72, 65, 278, 20);
+		apartamento_padrao_cadastro.add(textField_24);
+		textField_24.setColumns(10);
+		
+		textField_25 = new JTextField();
+		textField_25.setBounds(146, 101, 204, 20);
+		apartamento_padrao_cadastro.add(textField_25);
+		textField_25.setColumns(10);
+		
+		JButton btnNewButton_33 = new JButton("Voltar");
+		btnNewButton_33.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_33.setBounds(279, 228, 118, 23);
+		apartamento_padrao_cadastro.add(btnNewButton_33);
 	}
 	
 	private void limpar()

@@ -1,0 +1,2 @@
+Tipo N_Condominio N_Andar 
+Luxo 1 1 2 Moderna Sim
